@@ -9,11 +9,11 @@ An Electron application with React and TypeScript
 - Terminar la tabla relacional de Facturación
 - 
   ### Backend
-  - iniciar estructura API/ASP.net e integrarla al proyecto vite-electron
+  - iniciar estructura API/ASP.net e integrarla al proyecto vite-electron 
   - Realización de controladores
   - Implementación CRUD para cada controlador
-  - Métodos personalizado (search) para código, referencia y descripción
-  - Método para ajustar precios y ajustes positivo o negativo en  el stock del inventario 
+  - Métodos personalizado (search) para código, referencia y descripción de un producto 
+  - Método para ajustar precios y ajustes positivo/negativo en  el stock del producto 
   - Aplicar lógica de negocio
     
 
