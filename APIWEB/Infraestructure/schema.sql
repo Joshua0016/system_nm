@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS client (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     tax_id TEXT UNIQUE,                           -- RNC o Cédula
+    tax_type TEXT DEFAULT 'fisica' CHECK(tax_type in ('fisica', 'juridica', 'gubernamental', 'especial')),
     address TEXT,
     city TEXT,
     phone_number TEXT,
@@ -110,6 +111,22 @@ CREATE TABLE IF NOT EXISTS invoice_details (
 );
 
 -- ============================================================
+-- TABLA DE ABONOS / PAGOS DE CUENTAS POR COBRAR
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS invoice_payments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    invoice_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,                     -- Cajero que recibió el abono/pago
+    amount REAL NOT NULL CHECK(amount > 0),       -- Monto abonado
+    payment_type TEXT NOT NULL CHECK(payment_type IN ('cash', 'card', 'transfer')), -- Cómo pagó el abono
+    created_at TEXT NOT NULL DEFAULT (DATETIME('now')),
+    
+    FOREIGN KEY (invoice_id) REFERENCES invoices(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- ============================================================
 -- 5. DEVOLUCIONES / NOTAS DE CRÉDITO (REQUISITO DGII)
 -- ============================================================
 
@@ -168,7 +185,7 @@ CREATE INDEX IF NOT EXISTS idx_movements_product_date ON inventory_movements(pro
 CREATE INDEX IF NOT EXISTS idx_invoices_date ON invoices(created_at);
 CREATE INDEX IF NOT EXISTS idx_invoices_user ON invoices(user_id);
 CREATE INDEX IF NOT EXISTS idx_returns_date ON returns(created_at);
-
+CREATE INDEX IF NOT EXISTS idx_payments_invoice ON invoice_payments(invoice_id);
 
 -- Insertar usuario 'admin' por defecto únicamente si no existe
 INSERT OR IGNORE INTO users (id, username, password_hash, full_name, role)
