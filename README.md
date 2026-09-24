@@ -14,7 +14,9 @@ An Electron application with React and TypeScript
   - Realización de controladores
   - Implementación CRUD para cada controlador
   - Métodos personalizado (search) para código, referencia y descripción de un producto 
-  - Método para ajustar precios y ajustes positivo/negativo en  el stock del producto (tabal inventory_movement)
+  - Método para ajustar precios y ajustes positivo/negativo en  el stock del producto (tabla inventory_movement)
+  - consulta de movimientos de productos por fecha (tabla invetory_movement)
+  - consulta del diario de ventas (invoices)
   - Aplicar lógica de negocio
     
 

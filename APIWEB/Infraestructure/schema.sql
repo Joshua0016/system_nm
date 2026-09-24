@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS invoices (
     client_tax_id TEXT,
     invoice_number TEXT UNIQUE,                   -- NCF de la Factura (Ej: B0100000001)
     payment_type TEXT DEFAULT 'cash' CHECK(payment_type IN ('cash', 'credit', 'card', 'transfer')),
+    status TEXT NOT NULL DEFAULT 'COMPLETED' CHECK(status IN ('COMPLETED', 'REFUNDED', 'VOIDED')), -- estatus
     subtotal REAL DEFAULT 0 CHECK(subtotal >= 0),
     tax_amount REAL DEFAULT 0 CHECK(tax_amount >= 0),
     discount_amount REAL DEFAULT 0 CHECK(discount_amount >= 0),
