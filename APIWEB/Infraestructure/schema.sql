@@ -59,7 +59,13 @@ CREATE TABLE IF NOT EXISTS purchases (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     invoice_number TEXT NOT NULL, 
     supplier_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,                     -- Usuario/Comprador que registró la entrada
+    user_id INTEGER NOT NULL,                     -- Usuario que registró la entrada
+    
+    -- Campos Financieros Consolidados
+    subtotal REAL NOT NULL DEFAULT 0 CHECK(subtotal >= 0),
+    tax_amount REAL NOT NULL DEFAULT 0 CHECK(tax_amount >= 0),
+    total REAL NOT NULL DEFAULT 0 CHECK(total >= 0),
+    
     created_at TEXT NOT NULL DEFAULT (DATETIME('now')),
     FOREIGN KEY (supplier_id) REFERENCES suppliers(id),
     FOREIGN KEY (user_id) REFERENCES users(id)

@@ -1,10 +1,17 @@
-import Login from './login/Login'
+
+import { Routes, Route, Link } from 'react-router'
+import LoginPage from './pages/login/Login'
+
 function App(): React.JSX.Element {
 
 
   return (
     <>
-      <Login></Login>
+      <Routes>
+        <Route path='/' element={<LoginPage />}></Route>
+      </Routes>
+
+
     </>
   )
 }
