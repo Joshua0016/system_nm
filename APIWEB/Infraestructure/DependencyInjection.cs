@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SistemaFacturacion.Domain.Interfaces;
 using SistemaFacturacion.Infrastructure.Persistence;
-using SistemaFacturacion.Infrastructure.Persistence.Repositories;
+using SistemaFacturacion.App.Interfaces;
+using SistemaFacturacion.Persistence.Repositories;
+using SistemaFacturacion.Infrastructure.Security;
 
 namespace SistemaFacturacion.Infrastructure;
 
@@ -14,11 +15,12 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(
+            options.UseSqlite(
                 configuration.GetConnectionString("DefaultConnection")
             ));
 
-        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
         return services;
     }
