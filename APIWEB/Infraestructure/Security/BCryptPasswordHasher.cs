@@ -1,3 +1,4 @@
+using BCrypt.Net;
 using SistemaFacturacion.App.Interfaces;
 
 namespace SistemaFacturacion.Infrastructure.Security;
