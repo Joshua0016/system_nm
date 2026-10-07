@@ -10,10 +10,11 @@ An Electron application with React and TypeScript
 - 
   ### Backend
   - iniciar estructura API/ASP.net e integrarla al proyecto vite-electron 
+  - arquitectura clean
   - Realización de controladores
   - Implementación CRUD para cada controlador
   - Métodos personalizado (search) para código, referencia y descripción de un producto 
-  - Método para ajustar precios y ajustes positivo/negativo en  el stock del producto 
+  - Método para ajustar precios y ajustes positivo/negativo en  el stock del producto (tabal inventory_movement)
   - Aplicar lógica de negocio
     
 
