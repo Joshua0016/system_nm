@@ -5,6 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Resolver la ruta del .db relativa al proyecto (no al bin/)
+var projectDir = Directory.GetParent(AppContext.BaseDirectory)!
+    .Parent!.Parent!.Parent!.FullName;
+
+var dbPath = Path.Combine(projectDir, "Data", "SistemaFacturacion.db");
+
+// Sobrescribir la connection string con la ruta absoluta
+builder.Configuration["ConnectionStrings:DefaultConnection"] = $"Data Source={dbPath}";
+
 // Services
 builder.Services.AddControllers();
 
@@ -16,15 +25,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Inicializar base de datos con schema.sql
+// Aplicar schema.sql si la base de datos no tiene tablas
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureCreated();
 
     var schemaPath = Path.Combine(
-        Directory.GetParent(AppContext.BaseDirectory)!
-            .Parent!.Parent!.Parent!.FullName,
+        Directory.GetParent(projectDir)!.FullName,
+        "Infraestructure",
         "schema.sql"
     );
 
