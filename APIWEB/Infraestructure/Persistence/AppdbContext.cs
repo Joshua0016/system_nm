@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-
-using SistemaFacturacion.Domain.Entities;
+using Entities;
 
 namespace SistemaFacturacion.Infrastructure.Persistence;
 
@@ -12,5 +11,28 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<Client> Clients { get; set; } = null!;
+    public DbSet<Supplier> Suppliers { get; set; } = null!;
+    public DbSet<Product> Products { get; set; } = null!;
+    public DbSet<User> Users { get; set; } = null!;
+
+    public DbSet<Purchase> Purchases => Set<Purchase>();
+    public DbSet<PurchaseDetail> PurchaseDetails => Set<PurchaseDetail>();
+
+    public DbSet<Invoice> Invoices => Set<Invoice>();
+    public DbSet<InvoiceDetail> InvoiceDetails => Set<InvoiceDetail>();
+
+    public DbSet<Return> Returns => Set<Return>();
+    public DbSet<ReturnDetail> ReturnDetails => Set<ReturnDetail>();
+
+    public DbSet<InventoryMovement> InventoryMovements => Set<InventoryMovement>();
+
+    protected override void OnModelCreating(
+        ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(
+            typeof(AppDbContext).Assembly);
+    }
 }
