@@ -14,10 +14,11 @@ import { Input } from "@/components/ui/input"
 import { GalleryVerticalEndIcon } from "lucide-react"
 import login from "@renderer/apiService/login"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router"
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const [login_message, setLoginMessage] = useState('Iniciar Sesión')
-
+  const navigate = useNavigate()
   const handdleButton = async (e) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
@@ -35,6 +36,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       const data = await login(loginDto);
       if (data) {
         setLoginMessage('Completado')
+        navigate('/home');
       }
       else {
         setLoginMessage("Error al inicar sesión...")
