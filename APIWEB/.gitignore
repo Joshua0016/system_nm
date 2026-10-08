@@ -1,0 +1,21 @@
+# Build output
+bin/
+obj/
+
+# Base de datos SQLite (se genera automáticamente al arrancar)
+*.db
+*.db-shm
+*.db-wal
+
+# Variables de entorno y secretos
+.env
+*.local
+
+# Visual Studio / Rider
+.vs/
+*.user
+*.suo
+
+# OS
+.DS_Store
+Thumbs.db
