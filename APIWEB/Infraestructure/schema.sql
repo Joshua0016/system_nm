@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     code TEXT NOT NULL UNIQUE,
-    reference TEXT UNIQUE NOT NULL,
+    reference TEXT NOT NULL,
     description TEXT NOT NULL,
     stock REAL DEFAULT 0 CHECK(stock >= 0),
     markup REAL NOT NULL CHECK(markup > 0),
