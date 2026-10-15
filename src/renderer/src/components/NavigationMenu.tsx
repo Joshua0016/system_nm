@@ -64,9 +64,10 @@ export default function NavigationLinks() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuGroup>
-                            <DropdownMenuLabel>Productos</DropdownMenuLabel>
-                            <DropdownMenuItem className={'cursor-pointer'}><NavLink to={'createProduct'}>Registrar</NavLink></DropdownMenuItem>
-                            <DropdownMenuItem className={'cursor-pointer'}>Billing</DropdownMenuItem>
+                            <DropdownMenuLabel>Registrar</DropdownMenuLabel>
+                            <DropdownMenuItem className={'cursor-pointer'}><NavLink to={'createProduct'}>Productos</NavLink></DropdownMenuItem>
+                            <DropdownMenuItem className={'cursor-pointer'}>Compras</DropdownMenuItem>
+                            <DropdownMenuItem className={'cursor-pointer'}><NavLink to={'createSuppliers'}>Proveedores</NavLink></DropdownMenuItem>
 
                             <DropdownMenuSeparator />
 
