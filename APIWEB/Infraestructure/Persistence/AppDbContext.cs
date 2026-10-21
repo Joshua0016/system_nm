@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Entities;
+using SistemaFacturacion.Domain.Entities;
 
 namespace SistemaFacturacion.Infrastructure.Persistence;
 

@@ -199,7 +199,7 @@ INSERT OR IGNORE INTO users (id, username, password_hash, full_name, role)
 VALUES (
     1, 
     'admin', 
-    '$2b$10$wE9vN3/SgX8Y4IeZq.1234567890abcdef...', -- Hash de la contraseña 'admin123'
+    '$2a$11$omOk/gi7ijVmNaSFT8Y8xuZGqI.PYKEsKOHd30oeEEfVlckBSvkv2', -- Hash de la contraseña 'admin123'
     'Administrador Inicial', 
     'ADMIN'
 );

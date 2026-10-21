@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SistemaFacturacion.Infrastructure.Persistence;
 using SistemaFacturacion.App.Interfaces;
-using SistemaFacturacion.Persistence.Repositories;
+using SistemaFacturacion.Infrastructure.Persistence.Repositories;
 using SistemaFacturacion.Infrastructure.Security;
 
 namespace SistemaFacturacion.Infrastructure;
@@ -19,8 +19,11 @@ public static class DependencyInjection
                 configuration.GetConnectionString("DefaultConnection")
             ));
 
+        services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
+
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+        services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
         return services;
     }

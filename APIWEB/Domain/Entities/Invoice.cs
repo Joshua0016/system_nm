@@ -1,6 +1,6 @@
-namespace Entities;
+namespace SistemaFacturacion.Domain.Entities;
 
-using Enums;
+using SistemaFacturacion.Domain.Enums;
 
 public class Invoice
 {

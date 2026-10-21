@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Entities;
+using SistemaFacturacion.Domain.Entities;
 using SistemaFacturacion.App.Interfaces;
-using SistemaFacturacion.Infrastructure.Persistence;
 
-namespace SistemaFacturacion.Persistence.Repositories;
+namespace SistemaFacturacion.Infrastructure.Persistence.Repositories;
 
 public class UserRepository : IUserRepository
 {
@@ -14,9 +13,38 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public async Task<User?> GetUserByUsernameAsync(string username)
+    public async Task<User?> GetByIdAsync(int id)
+    {
+        return await _context.Users.FindAsync(id);
+    }
+
+    public async Task<User?> GetByUsernameAsync(string username)
     {
         return await _context.Users
             .FirstOrDefaultAsync(u => u.Username == username);
+    }
+
+    public async Task<IReadOnlyList<User>> GetAllAsync()
+    {
+        return await _context.Users
+            .AsNoTracking()
+            .OrderBy(u => u.Username)
+            .ToListAsync();
+    }
+
+    public async Task<bool> ExistsByUsernameAsync(string username)
+    {
+        return await _context.Users
+            .AnyAsync(u => u.Username == username);
+    }
+
+    public async Task AddAsync(User user)
+    {
+        await _context.Users.AddAsync(user);
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
     }
 }

@@ -12,6 +12,14 @@ public class BCryptPasswordHasher : IPasswordHasher
 
     public bool Verify(string password, string passwordHash)
     {
-        return global::BCrypt.Net.BCrypt.Verify(password, passwordHash);
+        try
+        {
+            return global::BCrypt.Net.BCrypt.Verify(password, passwordHash);
+        }
+        catch (SaltParseException)
+        {
+            // Hash mal formado en la BD: se trata como credencial inválida, no como error 500
+            return false;
+        }
     }
 }

@@ -1,8 +1,18 @@
-using Entities;
+using SistemaFacturacion.Domain.Entities;
 
 namespace SistemaFacturacion.App.Interfaces;
 
 public interface IUserRepository
 {
-    Task<User?> GetUserByUsernameAsync(string username);
+    Task<User?> GetByIdAsync(int id);
+
+    Task<User?> GetByUsernameAsync(string username);
+
+    Task<IReadOnlyList<User>> GetAllAsync();
+
+    Task<bool> ExistsByUsernameAsync(string username);
+
+    Task AddAsync(User user);
+
+    Task SaveChangesAsync();
 }

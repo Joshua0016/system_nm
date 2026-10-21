@@ -1,4 +1,4 @@
-namespace Entities;
+namespace SistemaFacturacion.Domain.Entities;
 
 public class Client
 {

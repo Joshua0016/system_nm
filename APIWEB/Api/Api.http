@@ -1,6 +1,32 @@
 @Api_HostAddress = http://localhost:5125
 
-GET {{Api_HostAddress}}/weatherforecast/
-Accept: application/json
+# 1) Login: copia el "token" de la respuesta en @token
+POST {{Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+###
+
+@token = pega-aqui-el-token
+
+GET {{Api_HostAddress}}/api/users
+Authorization: Bearer {{token}}
+
+###
+
+POST {{Api_HostAddress}}/api/users
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "username": "cajero1",
+  "password": "cajero123",
+  "fullName": "Cajero Uno",
+  "role": "Cashier"
+}
 
 ###

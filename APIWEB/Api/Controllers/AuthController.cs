@@ -2,7 +2,7 @@ using SistemaFacturacion.App.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using SistemaFacturacion.App.Interfaces;
 
-namespace SistemaFacturacion.Api.Controller;
+namespace SistemaFacturacion.Api.Controllers;
 
 
 [ApiController]
