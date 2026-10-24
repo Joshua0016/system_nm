@@ -9,6 +9,7 @@ namespace SistemaFacturacion.Api.Controllers;
 
 [ApiController]
 [Route("api/users")]
+[Produces("application/json")]
 [Authorize(Roles = nameof(UserRole.Admin))]
 public class UsersController : ControllerBase
 {
