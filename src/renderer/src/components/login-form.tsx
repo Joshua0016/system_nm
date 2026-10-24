@@ -12,8 +12,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { GalleryVerticalEndIcon } from "lucide-react"
-import login from "@renderer/apiService/login"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router"
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
@@ -25,15 +24,15 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     setLoginMessage("Cargando...")
 
     const username = (form.elements.namedItem("email") as HTMLInputElement).value;
-    const password_hash = (form.elements.namedItem("password") as HTMLInputElement).value
+    const password = (form.elements.namedItem("password") as HTMLInputElement).value
 
     const loginDto = {
       username,
-      password_hash
+      password
     }
 
     try {
-      const data = await login(loginDto);
+      const data = await window.api.auth.login(loginDto);
       if (data) {
         setLoginMessage('Completado')
         navigate('/home');
