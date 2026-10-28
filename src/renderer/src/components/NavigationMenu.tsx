@@ -93,15 +93,12 @@ export default function NavigationLinks() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuGroup>
-                            <DropdownMenuLabel>nada</DropdownMenuLabel>
-                            <DropdownMenuItem>Profile</DropdownMenuItem>
-                            <DropdownMenuItem>Billing</DropdownMenuItem>
+                            <DropdownMenuLabel>Seguridad</DropdownMenuLabel>
+                            <DropdownMenuItem><NavLink to={'userManagement'}>Gestión de usuarios</NavLink></DropdownMenuItem>
+                            <DropdownMenuItem>Roles y permisos</DropdownMenuItem>
+
                         </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem>Team</DropdownMenuItem>
-                            <DropdownMenuItem>Subscription</DropdownMenuItem>
-                        </DropdownMenuGroup>
+
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>

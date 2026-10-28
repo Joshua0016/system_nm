@@ -35,6 +35,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       const data = await window.api.auth.login(loginDto);
       if (data) {
         setLoginMessage('Completado')
+        localStorage.setItem('credentials', JSON.stringify(data));
+
         navigate('/home');
       }
       else {
