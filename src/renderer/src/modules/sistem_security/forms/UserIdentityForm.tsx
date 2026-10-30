@@ -67,7 +67,7 @@ const formSchema = z.object({
 })
 
 
-export default function UserIdentityForm({ setViewForm, selectedUser, setUpdateUsers }) {
+export default function UserIdentityForm({ setIdentityForm, selectedUser, setUpdateUsers }) {
 
 
     const form = useForm({
@@ -87,12 +87,12 @@ export default function UserIdentityForm({ setViewForm, selectedUser, setUpdateU
                     const updateUsers = await window.api.user.getAll();
                     setUpdateUsers(updateUsers)
                     alert('Usuario actualizado');
-                    setViewForm(false);
+                    setIdentityForm(false);
                     return
                 }
                 alert('Ha ocurrido un problema al actualizar los datos, Por favor comunicarse con el soporte')
             } catch (error) {
-                console.log('Error al guardar los datos-componente- ---> ' + error);
+                console.log('Error en el catch al guardar los datos- ---> ' + error);
             }
         }
         save(data);
@@ -235,7 +235,7 @@ export default function UserIdentityForm({ setViewForm, selectedUser, setUpdateU
                                     Guardar
                                 </Button>
                                 <div className="ml-auto">
-                                    <Button type="button" variant={'destructive'} onClick={() => setViewForm(false)}>Cancelar</Button>
+                                    <Button type="button" variant={'destructive'} onClick={() => setIdentityForm(false)}>Cancelar</Button>
                                 </div>
                             </Field>
                         </CardFooter>

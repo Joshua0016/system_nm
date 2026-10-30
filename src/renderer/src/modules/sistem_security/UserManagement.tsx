@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 
 import UserIdentityForm from './forms/UserIdentityForm';
+import PasswordForm from './forms/PasswordForm';
 
 interface User {
     username: string,
@@ -21,15 +22,16 @@ interface User {
 }
 export default function UserManagement() {
     const [users, setUsers] = useState([]);
-    const [viewForm, setViewForm] = useState(false);
     const [selectedUser, setSelectedUser] = useState({});
+    const [identityForm, setIdentityForm] = useState(false);
+    const [passwordForm, setPasswordForm] = useState(false);
+
     useEffect(() => {
         async function loadUser() {
             try {
                 const data = await window.api.user.getAll();
                 if (data) {
                     setUsers(data);
-
                 }
             } catch (error) {
                 console.log('Error al realizar la petición --->' + error);
@@ -82,7 +84,8 @@ export default function UserManagement() {
 
                     <DropdownMenuContent>
                         <DropdownMenuGroup>
-                            <DropdownMenuItem onClick={() => { setSelectedUser(row), setViewForm(true) }} className={'cursor-pointer'}>Editar usuario</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => { setSelectedUser(row), setIdentityForm(true) }} className={'cursor-pointer'}>Editar usuario</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => { setSelectedUser(row), setPasswordForm(true) }} className={'cursor-pointer'}>Editar contraseña</DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -111,8 +114,8 @@ export default function UserManagement() {
                     ></DataTable>
                 </div>
             </div>
-            {viewForm && <UserIdentityForm setViewForm={setViewForm} selectedUser={selectedUser} setUpdateUsers={setUsers}></UserIdentityForm >}
-
+            {identityForm && <UserIdentityForm setIdentityForm={setIdentityForm} selectedUser={selectedUser} setUpdateUsers={setUsers}></UserIdentityForm >}
+            {passwordForm && <PasswordForm setPasswordForm={setPasswordForm} selectedUser={selectedUser}></PasswordForm>}
 
         </>
     )

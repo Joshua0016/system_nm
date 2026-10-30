@@ -1,46 +1,46 @@
 import { ipcMain } from "electron";
 import { getToken } from "../auth.service";
-
+import axios from 'axios'
 export default function users() {
     ipcMain.handle('user:getAll', async (_event, data) => {
         try {
-            const response = await fetch('http://localhost:5125/api/users', {
-                method: "GET",
+            const response = axios.get('http://localhost:5125/api/users', {
                 headers: {
-                    "Content-type": 'application/json',
-                    "Authorization": `Bearer ${getToken()}`
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
                 }
-            });
-            if (!response.ok) {
-                const error = await response.json();
-                console.log('error al recibir los  datos del serviodr ----> ' + error);
-                return false;
-            }
-            const result = await response.json()
-            return result;
+            })
+            const result = (await response).data;
+            return result
         } catch (error) {
             console.log('Error al ejecutar la operacion -----> ' + error);
         }
     })
     ipcMain.handle('user:updateNameRole', async (_event, id, data) => {
         try {
-            const response = await fetch(`http://localhost:5125/api/users/${id}`, {
-                method: 'PUT',
+            const response = axios.put(`http://localhost:5125/api/users/${id}`, data, {
                 headers: {
-                    'Content-type': 'application/json',
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${getToken()}`
                 },
-                body: JSON.stringify(data),
-            })
-            if (!response.ok) {
-                const result = await response.json();
-                console.log('Error al recibir la consulta ----> ' + result);
-                return false
-            }
-            const result = await response.json();
-            return result
+            });
+            const result = (await response).data;
+            return result;
         } catch (error) {
             console.log("Error en el try catch user:updateNameRole -----> " + error);
+        }
+    })
+    ipcMain.handle('user:updatePassword', async (_event, id, data) => {
+        try {
+            axios.put(`http://localhost:5125/api/users/${id}/password`, data, {
+                headers: {
+                    'Content-Type': "application/json",
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            });
+
+        } catch (error) {
+            console.log('Error catch, main process user, -----> ' + error);
         }
     })
 
