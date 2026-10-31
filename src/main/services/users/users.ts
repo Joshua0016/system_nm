@@ -42,6 +42,20 @@ export default function users() {
         } catch (error) {
             console.log('Error catch, main process user, -----> ' + error);
         }
+    });
+    ipcMain.handle('user:create', async (_event, data) => {
+        try {
+            const response = axios.post('http://localhost:5125/api/users', data, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            });
+            return ((await response).data);
+        } catch (error) {
+            console.log('Error al realizar la operacion user:create main process -----> ' + error);
+        }
     })
 
 }

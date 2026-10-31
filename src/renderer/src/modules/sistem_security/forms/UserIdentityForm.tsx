@@ -84,11 +84,10 @@ export default function UserIdentityForm({ setIdentityForm, selectedUser, setUpd
             try {
                 const result = await window.api.user.updateNameRole(selectedUser.id, data)
                 if (result) {
-                    const updateUsers = await window.api.user.getAll();
-                    setUpdateUsers(updateUsers)
-                    alert('Usuario actualizado');
-                    setIdentityForm(false);
-                    return
+                    setUpdateUsers((prevUser) => prevUser.map((user) => user.id === result.id ? result : user));
+                    alert('Usuario actualizado correctamente');
+                    setIdentityForm(false)
+                    return;
                 }
                 alert('Ha ocurrido un problema al actualizar los datos, Por favor comunicarse con el soporte')
             } catch (error) {
@@ -104,7 +103,7 @@ export default function UserIdentityForm({ setIdentityForm, selectedUser, setUpd
                 <div className="min-h-screen flex items-center justify-center p-4">
                     <Card className="w-full sm:max-w-lg">
                         <CardHeader>
-                            <CardTitle>Editar usuario</CardTitle>
+                            <CardTitle>Editar usuario {selectedUser.username}</CardTitle>
                             <CardDescription>
                                 Inserta los valores adecuados para editar el usuario
                             </CardDescription>

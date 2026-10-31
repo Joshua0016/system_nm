@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button"
 
 import UserIdentityForm from './forms/UserIdentityForm';
 import PasswordForm from './forms/PasswordForm';
+import CreateNewUser from './forms/CreateNewUser';
 
 interface User {
     username: string,
@@ -25,6 +26,7 @@ export default function UserManagement() {
     const [selectedUser, setSelectedUser] = useState({});
     const [identityForm, setIdentityForm] = useState(false);
     const [passwordForm, setPasswordForm] = useState(false);
+    const [newUserForm, setNewUserForm] = useState(false);
 
     useEffect(() => {
         async function loadUser() {
@@ -100,7 +102,7 @@ export default function UserManagement() {
                 <div className='w-[70%] p-3.5'>
                     <div className='flex m-1'>
                         <div className='ml-auto'>
-                            <Button variant="outline" className={'cursor-pointer'}><Plus className='w-5' /></Button>
+                            <Button variant="outline" className={'cursor-pointer'} onClick={() => setNewUserForm(true)}><Plus className='w-5' /></Button>
                         </div>
 
                     </div>
@@ -108,6 +110,7 @@ export default function UserManagement() {
                         columns={columns}
                         data={users}
                         pagination
+                        paginationPerPage={3}
                         paginationRowsPerPageOptions={[3, 5]}
                         customStyles={customStyles}
                         highlightOnHover
@@ -116,6 +119,7 @@ export default function UserManagement() {
             </div>
             {identityForm && <UserIdentityForm setIdentityForm={setIdentityForm} selectedUser={selectedUser} setUpdateUsers={setUsers}></UserIdentityForm >}
             {passwordForm && <PasswordForm setPasswordForm={setPasswordForm} selectedUser={selectedUser}></PasswordForm>}
+            {newUserForm && <CreateNewUser setNewUserForm={setNewUserForm} setUpdateUser={setUsers}></CreateNewUser>}
 
         </>
     )
