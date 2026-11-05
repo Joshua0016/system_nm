@@ -32,7 +32,7 @@ export default function users() {
     })
     ipcMain.handle('user:updatePassword', async (_event, id, data) => {
         try {
-            axios.put(`http://localhost:5125/api/users/${id}/password`, data, {
+            await axios.put(`http://localhost:5125/api/users/${id}/password`, data, {
                 headers: {
                     'Content-Type': "application/json",
                     'Authorization': `Bearer ${getToken()}`
@@ -56,6 +56,37 @@ export default function users() {
         } catch (error) {
             console.log('Error al realizar la operacion user:create main process -----> ' + error);
         }
-    })
+    });
+    ipcMain.handle('user:desactivate', async (_event, data) => {
+        try {
+            await axios.put(`http://localhost:5125/api/users/${data}/deactivate`, {}, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            });
+
+
+        } catch (error) {
+            console.log('Error al realizar la operacion user:desactivate main process -----> ' + error);
+
+
+        }
+    });
+    ipcMain.handle('user:activate', async (_event, data) => {
+        try {
+            await axios.put(`http://localhost:5125/api/users/${data}/activate`, {}, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            });
+
+        } catch (error) {
+            console.log('Error al realizar la operacion user:activate main process -----> ' + error);
+        }
+    });
 
 }

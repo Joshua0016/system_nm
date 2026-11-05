@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button"
 import UserIdentityForm from './forms/UserIdentityForm';
 import PasswordForm from './forms/PasswordForm';
 import CreateNewUser from './forms/CreateNewUser';
+import UserStatusSwitch from './forms/UserStatusSwitch';
 
 interface User {
     username: string,
@@ -27,6 +28,7 @@ export default function UserManagement() {
     const [identityForm, setIdentityForm] = useState(false);
     const [passwordForm, setPasswordForm] = useState(false);
     const [newUserForm, setNewUserForm] = useState(false);
+    const [userStatusSwitch, setStatusSwitch] = useState(false)
 
     useEffect(() => {
         async function loadUser() {
@@ -88,6 +90,7 @@ export default function UserManagement() {
                         <DropdownMenuGroup>
                             <DropdownMenuItem onClick={() => { setSelectedUser(row), setIdentityForm(true) }} className={'cursor-pointer'}>Editar usuario</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => { setSelectedUser(row), setPasswordForm(true) }} className={'cursor-pointer'}>Editar contraseña</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => { setSelectedUser(row), setStatusSwitch(true) }} className={'cursor-pointer'}>Activar/Desactivar</DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -120,6 +123,7 @@ export default function UserManagement() {
             {identityForm && <UserIdentityForm setIdentityForm={setIdentityForm} selectedUser={selectedUser} setUpdateUsers={setUsers}></UserIdentityForm >}
             {passwordForm && <PasswordForm setPasswordForm={setPasswordForm} selectedUser={selectedUser}></PasswordForm>}
             {newUserForm && <CreateNewUser setNewUserForm={setNewUserForm} setUpdateUser={setUsers}></CreateNewUser>}
+            {userStatusSwitch && <UserStatusSwitch setUserStatusSwitch={setStatusSwitch} selectedUser={selectedUser} setUpdateUsers={setUsers}></UserStatusSwitch>}
 
         </>
     )
