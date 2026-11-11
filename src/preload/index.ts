@@ -6,6 +6,15 @@ export const api = {
   auth: {
     login: (dto) => ipcRenderer.invoke('auth:login', dto)
   },
+  user: {
+    get: (id: number) => ipcRenderer.invoke('user:get', id),
+    getAll: () => ipcRenderer.invoke('user:getAll'),
+    create: (dto) => ipcRenderer.invoke('user:create', dto),
+    updateNameRole: (id: number, dto) => ipcRenderer.invoke('user:updateNameRole', id, dto),
+    updatePassword: (id: number, dto) => ipcRenderer.invoke('user:updatePassword', id, dto),
+    activate: (id: number) => ipcRenderer.invoke('user:activate', id),
+    desactivate: (id: number) => ipcRenderer.invoke('user:desactivate', id)
+  }
 }
 export const CustomApi = typeof api;
 

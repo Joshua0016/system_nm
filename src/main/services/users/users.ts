@@ -1,0 +1,92 @@
+import { ipcMain } from "electron";
+import { getToken } from "../auth.service";
+import axios from 'axios'
+export default function users() {
+    ipcMain.handle('user:getAll', async (_event, data) => {
+        try {
+            const response = axios.get('http://localhost:5125/api/users', {
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            })
+            const result = (await response).data;
+            return result
+        } catch (error) {
+            console.log('Error al ejecutar la operacion -----> ' + error);
+        }
+    })
+    ipcMain.handle('user:updateNameRole', async (_event, id, data) => {
+        try {
+            const response = axios.put(`http://localhost:5125/api/users/${id}`, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                },
+            });
+            const result = (await response).data;
+            return result;
+        } catch (error) {
+            console.log("Error en el try catch user:updateNameRole -----> " + error);
+        }
+    })
+    ipcMain.handle('user:updatePassword', async (_event, id, data) => {
+        try {
+            await axios.put(`http://localhost:5125/api/users/${id}/password`, data, {
+                headers: {
+                    'Content-Type': "application/json",
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            });
+
+        } catch (error) {
+            console.log('Error catch, main process user, -----> ' + error);
+        }
+    });
+    ipcMain.handle('user:create', async (_event, data) => {
+        try {
+            const response = axios.post('http://localhost:5125/api/users', data, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            });
+            return ((await response).data);
+        } catch (error) {
+            console.log('Error al realizar la operacion user:create main process -----> ' + error);
+        }
+    });
+    ipcMain.handle('user:desactivate', async (_event, data) => {
+        try {
+            await axios.put(`http://localhost:5125/api/users/${data}/deactivate`, {}, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            });
+
+
+        } catch (error) {
+            console.log('Error al realizar la operacion user:desactivate main process -----> ' + error);
+
+
+        }
+    });
+    ipcMain.handle('user:activate', async (_event, data) => {
+        try {
+            await axios.put(`http://localhost:5125/api/users/${data}/activate`, {}, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            });
+
+        } catch (error) {
+            console.log('Error al realizar la operacion user:activate main process -----> ' + error);
+        }
+    });
+
+}
