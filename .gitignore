@@ -5,6 +5,7 @@ out
 .eslintcache
 *.log*
 *.db
+*.db.bak
 *.sqlite
 *.sqlite3
 .vscode
