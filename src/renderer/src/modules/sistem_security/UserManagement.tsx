@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react'
-import DataTable, { TableColumn, type TableStyles } from 'react-data-table-component'
+import DataTable, { ConditionalStyles, TableColumn, type TableStyles } from 'react-data-table-component'
 import { Plus, Pencil } from 'lucide-react';
 import {
     DropdownMenu,
@@ -72,6 +72,8 @@ export default function UserManagement() {
     };
 
 
+
+
     const columns: TableColumn<User>[] = [
         { name: 'Nombre usuario', selector: (row) => row.username, sortable: true },
         { name: 'Nombre completo', selector: (row) => row.fullName, sortable: true },
@@ -94,9 +96,16 @@ export default function UserManagement() {
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
+
             )
         }
 
+    ]
+    const conditionalRowStyles: ConditionalStyles<User>[] = [
+        {
+            when: row => !row.isActive,
+            style: { opacity: 0.5 },
+        }
     ]
     return (
         <>
@@ -117,6 +126,7 @@ export default function UserManagement() {
                         paginationRowsPerPageOptions={[3, 5]}
                         customStyles={customStyles}
                         highlightOnHover
+                        conditionalRowStyles={conditionalRowStyles}
                     ></DataTable>
                 </div>
             </div>

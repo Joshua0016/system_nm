@@ -11,7 +11,6 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuPortal,
     DropdownMenuSubContent,
-    DropdownMenuShortcut
 } from "@/components/ui/dropdown-menu"
 import { useState } from "react"
 import { NavLink } from "react-router"
@@ -73,16 +72,18 @@ export default function NavigationLinks() {
 
                             <DropdownMenuGroup>
                                 <DropdownMenuSub>
-                                    <DropdownMenuSubTrigger>Consultas</DropdownMenuSubTrigger>
+
+                                    <DropdownMenuSubTrigger>Modificar</DropdownMenuSubTrigger>
                                     <DropdownMenuPortal>
                                         <DropdownMenuSubContent>
-                                            <DropdownMenuItem className={'cursor-pointer'}>Movimientos</DropdownMenuItem>
-                                            <DropdownMenuItem>Message</DropdownMenuItem>
-
+                                            <DropdownMenuItem className={'cursor-pointer'}>Productos</DropdownMenuItem>
+                                            <DropdownMenuItem className={'cursor-pointer'}>Proveedores</DropdownMenuItem>
                                         </DropdownMenuSubContent>
                                     </DropdownMenuPortal>
                                 </DropdownMenuSub>
                             </DropdownMenuGroup>
+
+                            <DropdownMenuSeparator />
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -95,7 +96,6 @@ export default function NavigationLinks() {
                         <DropdownMenuGroup>
                             <DropdownMenuLabel>Seguridad</DropdownMenuLabel>
                             <DropdownMenuItem><NavLink to={'userManagement'}>Gestión de usuarios</NavLink></DropdownMenuItem>
-                            <DropdownMenuItem>Roles y permisos</DropdownMenuItem>
 
                         </DropdownMenuGroup>
 
