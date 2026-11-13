@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS products (
     markup REAL NOT NULL CHECK(markup > 0),
     cost REAL DEFAULT 0 CHECK(cost >= 0),
     price REAL DEFAULT 0 CHECK(price >= 0),
-    unit_measurement TEXT NOT NULL CHECK(unit_measurement IN ('PULGADA', 'CENTIMETROS', 'MILIMETROS', 'METROS')),
+    unit_measurement TEXT NOT NULL CHECK(unit_measurement IN ('PULGADA', 'CENTIMETROS', 'MILIMETROS', 'METROS', 'UNIDAD')),
     created_at TEXT NOT NULL DEFAULT (DATETIME('now'))
 );
 

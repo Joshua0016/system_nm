@@ -5,6 +5,10 @@ using SistemaFacturacion.Domain.Enums;
 public class Product
 {
     public const int CodeMaxLength = 50;
+
+    // Formato del código autogenerado: PRD-000001, PRD-000002…
+    public const string CodePrefix = "PRD-";
+    public const int CodeDigits = 6;
     public const int ReferenceMaxLength = 100;
     public const int DescriptionMaxLength = 200;
 
@@ -52,14 +56,13 @@ public class Product
         CreatedAt = DateTime.UtcNow;
     }
 
+    // El código lo genera el sistema al crear y no se modifica
     public void Update(
-        string code,
         string reference,
         string description,
         decimal markup,
         UnitMeasurement unitMeasurement)
     {
-        Code = ValidateText(code, CodeMaxLength, "El código");
         Reference = ValidateText(reference, ReferenceMaxLength, "La referencia");
         Description = ValidateText(description, DescriptionMaxLength, "La descripción");
         Markup = ValidateMarkup(markup);

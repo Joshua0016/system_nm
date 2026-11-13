@@ -4,12 +4,9 @@ using SistemaFacturacion.Domain.Enums;
 
 namespace SistemaFacturacion.App.DTOs;
 
+// El código no se envía: lo genera el sistema (PRD-000001…)
 public class CreateProductRequest
 {
-    [Required(ErrorMessage = "El código es obligatorio.")]
-    [MaxLength(Product.CodeMaxLength)]
-    public string Code { get; set; } = string.Empty;
-
     [Required(ErrorMessage = "La referencia es obligatoria.")]
     [MaxLength(Product.ReferenceMaxLength)]
     public string Reference { get; set; } = string.Empty;

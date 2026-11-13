@@ -51,7 +51,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnName("price")
             .HasColumnType("decimal(18,2)");
 
-        // schema.sql exige 'PULGADA' | 'CENTIMETROS' | 'MILIMETROS' | 'METROS' (CHECK constraint)
+        // schema.sql exige 'PULGADA' | 'CENTIMETROS' | 'MILIMETROS' | 'METROS' | 'UNIDAD' (CHECK constraint)
         builder.Property(x => x.UnitMeasurement)
             .HasColumnName("unit_measurement")
             .HasConversion(

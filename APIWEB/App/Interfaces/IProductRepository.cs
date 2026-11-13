@@ -10,7 +10,7 @@ public interface IProductRepository
 
     Task<IReadOnlyList<Product>> GetAllAsync(string? search);
 
-    Task<bool> ExistsByCodeAsync(string code, int? excludeId = null);
+    Task<string> GetNextCodeAsync();
 
     Task AddAsync(Product product);
 

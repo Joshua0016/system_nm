@@ -38,15 +38,8 @@ public class ProductService : IProductService
 
     public async Task<ProductResponse> CreateAsync(CreateProductRequest request)
     {
-        var code = request.Code.Trim();
-
-        if (await _productRepository.ExistsByCodeAsync(code))
-        {
-            throw new ConflictException($"El código '{code}' ya está en uso.");
-        }
-
         var product = new Product(
-            code,
+            await _productRepository.GetNextCodeAsync(),
             request.Reference,
             request.Description,
             request.Markup!.Value,
@@ -61,15 +54,8 @@ public class ProductService : IProductService
     public async Task<ProductResponse> UpdateAsync(int id, UpdateProductRequest request)
     {
         var product = await GetProductOrThrowAsync(id);
-        var code = request.Code.Trim();
-
-        if (await _productRepository.ExistsByCodeAsync(code, excludeId: id))
-        {
-            throw new ConflictException($"El código '{code}' ya está en uso.");
-        }
 
         product.Update(
-            code,
             request.Reference,
             request.Description,
             request.Markup!.Value,

@@ -1,5 +1,7 @@
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using SistemaFacturacion.Domain.Entities;
+using SistemaFacturacion.App.Exceptions;
 using SistemaFacturacion.App.Interfaces;
 
 namespace SistemaFacturacion.Infrastructure.Persistence.Repositories;
@@ -28,15 +30,18 @@ public class ProductRepository : IProductRepository
     {
         var query = _context.Products.AsNoTracking();
 
-        if (!string.IsNullOrWhiteSpace(search))
+        // Cada palabra debe aparecer en el código, la referencia o la descripción:
+        // "tubo pvc" encuentra "Tubo de PVC". LIKE en SQLite ignora mayúsculas solo en ASCII
+        var terms = search?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
+
+        foreach (var term in terms)
         {
-            // LIKE en SQLite ya ignora mayúsculas/minúsculas en ASCII
-            var pattern = $"%{search}%";
+            var pattern = $"%{EscapeLike(term)}%";
 
             query = query.Where(p =>
-                EF.Functions.Like(p.Code, pattern) ||
-                EF.Functions.Like(p.Reference, pattern) ||
-                EF.Functions.Like(p.Description, pattern));
+                EF.Functions.Like(p.Code, pattern, LikeEscape) ||
+                EF.Functions.Like(p.Reference, pattern, LikeEscape) ||
+                EF.Functions.Like(p.Description, pattern, LikeEscape));
         }
 
         return await query
@@ -44,10 +49,19 @@ public class ProductRepository : IProductRepository
             .ToListAsync();
     }
 
-    public async Task<bool> ExistsByCodeAsync(string code, int? excludeId = null)
+    public async Task<string> GetNextCodeAsync()
     {
-        return await _context.Products
-            .AnyAsync(p => p.Code == code && (excludeId == null || p.Id != excludeId));
+        // Con ceros a la izquierda el orden de texto coincide con el numérico
+        var lastCode = await _context.Products
+            .Where(p => p.Code.StartsWith(Product.CodePrefix))
+            .MaxAsync(p => (string?)p.Code);
+
+        var lastNumber = lastCode is not null
+            && int.TryParse(lastCode[Product.CodePrefix.Length..], out var number)
+                ? number
+                : 0;
+
+        return $"{Product.CodePrefix}{(lastNumber + 1).ToString($"D{Product.CodeDigits}")}";
     }
 
     public async Task AddAsync(Product product)
@@ -57,6 +71,29 @@ public class ProductRepository : IProductRepository
 
     public async Task SaveChangesAsync()
     {
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateException ex) when (ex.InnerException is SqliteException
+        {
+            SqliteExtendedErrorCode: SqliteUniqueConstraintError
+        })
+        {
+            // Dos altas simultáneas pueden calcular el mismo código siguiente
+            throw new ConflictException("Otro usuario acaba de crear un producto con el mismo código. Intenta de nuevo.");
+        }
+    }
+
+    private const int SqliteUniqueConstraintError = 2067;
+
+    private const string LikeEscape = "\\";
+
+    private static string EscapeLike(string value)
+    {
+        return value
+            .Replace("\\", "\\\\")
+            .Replace("%", "\\%")
+            .Replace("_", "\\_");
     }
 }
