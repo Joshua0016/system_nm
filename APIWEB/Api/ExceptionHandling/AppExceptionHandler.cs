@@ -42,8 +42,16 @@ public class AppExceptionHandler : IExceptionHandler
             {
                 Status = status,
                 Title = title,
-                Detail = exception.Message
+                Detail = GetDetail(exception)
             }
         });
+    }
+
+    // ArgumentException añade " (Parameter 'x')" al mensaje; el cliente solo necesita el texto
+    private static string GetDetail(Exception exception)
+    {
+        return exception is ArgumentException { ParamName: not null } argumentException
+            ? argumentException.Message.Replace($" (Parameter '{argumentException.ParamName}')", string.Empty)
+            : exception.Message;
     }
 }
