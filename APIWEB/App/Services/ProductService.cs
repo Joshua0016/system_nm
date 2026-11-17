@@ -42,10 +42,10 @@ public class ProductService : IProductService
             await _productRepository.GetNextCodeAsync(),
             request.Reference,
             request.Description,
-            request.Cost!.Value,
-            request.Markup!.Value,
+            request.Cost,
+            request.Markup,
             request.Price,
-            request.Stock!.Value,
+            request.Stock,
             request.UnitMeasurement!.Value);
 
         await _productRepository.AddAsync(product);
@@ -61,10 +61,10 @@ public class ProductService : IProductService
         product.Update(
             request.Reference,
             request.Description,
-            request.Cost!.Value,
-            request.Markup!.Value,
+            request.Cost,
+            request.Markup,
             request.Price,
-            request.Stock!.Value,
+            request.Stock,
             request.UnitMeasurement!.Value);
 
         await _productRepository.SaveChangesAsync();

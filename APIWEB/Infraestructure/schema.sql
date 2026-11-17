@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS products (
     reference TEXT NOT NULL,
     description TEXT NOT NULL,
     stock REAL DEFAULT 0 CHECK(stock >= 0),
-    markup REAL NOT NULL CHECK(markup > 0),
+    markup REAL NOT NULL DEFAULT 0 CHECK(markup >= 0),
     cost REAL DEFAULT 0 CHECK(cost >= 0),
     price REAL DEFAULT 0 CHECK(price >= 0),
     unit_measurement TEXT NOT NULL CHECK(unit_measurement IN ('PULGADA', 'CENTIMETROS', 'MILIMETROS', 'METROS', 'UNIDAD')),

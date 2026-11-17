@@ -93,16 +93,16 @@ public class Product
 
     private static decimal ValidateCost(decimal cost)
     {
-        if (cost <= 0)
-            throw new ArgumentException("El costo debe ser mayor que cero.", nameof(cost));
+        if (cost < 0)
+            throw new ArgumentException("El costo no puede ser negativo.", nameof(cost));
 
         return Math.Round(cost, 2, MidpointRounding.AwayFromZero);
     }
 
     private static decimal ValidateMarkup(decimal markup)
     {
-        if (markup <= 0)
-            throw new ArgumentException("El markup debe ser mayor que cero.", nameof(markup));
+        if (markup < 0)
+            throw new ArgumentException("El markup no puede ser negativo.", nameof(markup));
 
         return Math.Round(markup, 4, MidpointRounding.AwayFromZero);
     }

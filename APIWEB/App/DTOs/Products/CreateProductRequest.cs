@@ -15,21 +15,16 @@ public class CreateProductRequest
     [MaxLength(Product.DescriptionMaxLength)]
     public string Description { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "El costo es obligatorio.")]
-    [Range(0.01, 999_999_999, ErrorMessage = "El costo debe ser mayor que cero.")]
-    public decimal? Cost { get; set; }
+    // Valores opcionales: si no se envían quedan en 0. La entidad rechaza negativos
+    public decimal Cost { get; set; }
 
-    [Required(ErrorMessage = "El markup es obligatorio.")]
-    [Range(0.0001, 999_999_999, ErrorMessage = "El markup debe ser mayor que cero (0.30 = 30 %).")]
-    public decimal? Markup { get; set; }
+    // Utilidad sobre el costo (0.30 = 30 %)
+    public decimal Markup { get; set; }
 
-    // Opcional: si no se envía queda en 0 y el precio se indica al facturar
-    [Range(0.0, 999_999_999, ErrorMessage = "El precio no puede ser negativo.")]
+    // El precio final se indica al facturar
     public decimal Price { get; set; }
 
-    [Required(ErrorMessage = "El stock es obligatorio.")]
-    [Range(0.0, 999_999_999, ErrorMessage = "El stock no puede ser negativo.")]
-    public decimal? Stock { get; set; }
+    public decimal Stock { get; set; }
 
     [Required(ErrorMessage = "La unidad de medida es obligatoria.")]
     [EnumDataType(typeof(UnitMeasurement))]
