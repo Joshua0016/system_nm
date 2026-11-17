@@ -43,7 +43,8 @@ public class ProductService : IProductService
             request.Reference,
             request.Description,
             request.Cost!.Value,
-            request.Price!.Value,
+            request.Markup!.Value,
+            request.Price,
             request.Stock!.Value,
             request.UnitMeasurement!.Value);
 
@@ -61,7 +62,8 @@ public class ProductService : IProductService
             request.Reference,
             request.Description,
             request.Cost!.Value,
-            request.Price!.Value,
+            request.Markup!.Value,
+            request.Price,
             request.Stock!.Value,
             request.UnitMeasurement!.Value);
 

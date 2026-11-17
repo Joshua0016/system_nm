@@ -19,10 +19,13 @@ public class CreateProductRequest
     [Range(0.01, 999_999_999, ErrorMessage = "El costo debe ser mayor que cero.")]
     public decimal? Cost { get; set; }
 
-    // Debe ser mayor que el costo; el markup se deduce de ambos
-    [Required(ErrorMessage = "El precio es obligatorio.")]
-    [Range(0.01, 999_999_999, ErrorMessage = "El precio debe ser mayor que cero.")]
-    public decimal? Price { get; set; }
+    [Required(ErrorMessage = "El markup es obligatorio.")]
+    [Range(0.0001, 999_999_999, ErrorMessage = "El markup debe ser mayor que cero (0.30 = 30 %).")]
+    public decimal? Markup { get; set; }
+
+    // Opcional: si no se envía queda en 0 y el precio se indica al facturar
+    [Range(0.0, 999_999_999, ErrorMessage = "El precio no puede ser negativo.")]
+    public decimal Price { get; set; }
 
     [Required(ErrorMessage = "El stock es obligatorio.")]
     [Range(0.0, 999_999_999, ErrorMessage = "El stock no puede ser negativo.")]
