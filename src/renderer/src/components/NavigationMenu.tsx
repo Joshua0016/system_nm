@@ -83,7 +83,7 @@ export default function NavigationLinks() {
                                 </DropdownMenuSub>
                             </DropdownMenuGroup>
 
-                            <DropdownMenuSeparator />
+
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>

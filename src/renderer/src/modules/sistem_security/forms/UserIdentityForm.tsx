@@ -1,4 +1,5 @@
 "use client"
+import { motion } from 'motion/react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import * as z from "zod"
@@ -99,7 +100,9 @@ export default function UserIdentityForm({ setIdentityForm, selectedUser, setUpd
     }
     return (
         <>
-            <div className='absolute inset-0 backdrop-blur-[4px] bg-black/20'>
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.1 }}
+                className='absolute inset-0 backdrop-blur-[4px] bg-black/20'>
                 <div className="min-h-screen flex items-center justify-center p-4">
                     <Card className="w-full sm:max-w-lg">
                         <CardHeader>
@@ -242,7 +245,7 @@ export default function UserIdentityForm({ setIdentityForm, selectedUser, setUpd
 
                 </div>
 
-            </div>
+            </motion.div>
         </>
     )
 }

@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from "motion/react"
 import DataTable, { ConditionalStyles, TableColumn, type TableStyles } from 'react-data-table-component'
 import { Plus, Pencil } from 'lucide-react';
 import {
@@ -130,10 +131,13 @@ export default function UserManagement() {
                     ></DataTable>
                 </div>
             </div>
-            {identityForm && <UserIdentityForm setIdentityForm={setIdentityForm} selectedUser={selectedUser} setUpdateUsers={setUsers}></UserIdentityForm >}
-            {passwordForm && <PasswordForm setPasswordForm={setPasswordForm} selectedUser={selectedUser}></PasswordForm>}
-            {newUserForm && <CreateNewUser setNewUserForm={setNewUserForm} setUpdateUser={setUsers}></CreateNewUser>}
-            {userStatusSwitch && <UserStatusSwitch setUserStatusSwitch={setStatusSwitch} selectedUser={selectedUser} setUpdateUsers={setUsers}></UserStatusSwitch>}
+            <AnimatePresence >
+                {identityForm && <UserIdentityForm setIdentityForm={setIdentityForm} selectedUser={selectedUser} setUpdateUsers={setUsers}></UserIdentityForm >}
+                {passwordForm && <PasswordForm setPasswordForm={setPasswordForm} selectedUser={selectedUser}></PasswordForm>}
+                {newUserForm && <CreateNewUser setNewUserForm={setNewUserForm} setUpdateUser={setUsers}></CreateNewUser>}
+                {userStatusSwitch && <UserStatusSwitch setUserStatusSwitch={setStatusSwitch} selectedUser={selectedUser} setUpdateUsers={setUsers}></UserStatusSwitch>}
+
+            </AnimatePresence>
 
         </>
     )
