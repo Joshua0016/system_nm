@@ -22,11 +22,12 @@ public class Product
 
     public decimal Stock { get; private set; }
 
-    // Utilidad sobre el costo, deducida del precio: Price / Cost − 1 (0.30 = 30 %)
+    // Utilidad sobre el costo que fija el usuario (0.30 = 30 %); no se calcula
     public decimal Markup { get; private set; }
 
     public decimal Cost { get; private set; }
 
+    // Puede quedar en 0: el precio final se indica al facturar
     public decimal Price { get; private set; }
 
     public UnitMeasurement UnitMeasurement { get; private set; }
@@ -42,13 +43,14 @@ public class Product
         string reference,
         string description,
         decimal cost,
+        decimal markup,
         decimal price,
         decimal stock,
         UnitMeasurement unitMeasurement)
     {
         Code = ValidateText(code, CodeMaxLength, "El código");
         CreatedAt = DateTime.UtcNow;
-        Update(reference, description, cost, price, stock, unitMeasurement);
+        Update(reference, description, cost, markup, price, stock, unitMeasurement);
     }
 
     // El código lo genera el sistema al crear y no se modifica
@@ -56,6 +58,7 @@ public class Product
         string reference,
         string description,
         decimal cost,
+        decimal markup,
         decimal price,
         decimal stock,
         UnitMeasurement unitMeasurement)
@@ -64,30 +67,15 @@ public class Product
         Description = ValidateText(description, DescriptionMaxLength, "La descripción");
         UnitMeasurement = ValidateUnitMeasurement(unitMeasurement);
         Stock = ValidateStock(stock, UnitMeasurement);
-        SetPricing(cost, price);
+        Cost = ValidateCost(cost);
+        Markup = ValidateMarkup(markup);
+        Price = ValidatePrice(price);
     }
 
-    // Lo usarán las compras al dar entrada a mercancía: conserva el markup y ajusta el precio
+    // Lo usarán las compras al dar entrada a mercancía; no toca markup ni precio
     public void UpdateCost(decimal cost)
     {
         Cost = ValidateCost(cost);
-        RecalculatePrice();
-    }
-
-    private void SetPricing(decimal cost, decimal price)
-    {
-        Cost = ValidateCost(cost);
-        Price = Math.Round(price, 2, MidpointRounding.AwayFromZero);
-
-        if (Price <= Cost)
-            throw new ArgumentException("El precio debe ser mayor que el costo.", nameof(price));
-
-        Markup = Math.Round(Price / Cost - 1, 4, MidpointRounding.AwayFromZero);
-    }
-
-    private void RecalculatePrice()
-    {
-        Price = Math.Round(Cost * (1 + Markup), 2, MidpointRounding.AwayFromZero);
     }
 
     private static string ValidateText(string value, int maxLength, string fieldName)
@@ -105,10 +93,26 @@ public class Product
 
     private static decimal ValidateCost(decimal cost)
     {
-        if (cost <= 0)
-            throw new ArgumentException("El costo debe ser mayor que cero.", nameof(cost));
+        if (cost < 0)
+            throw new ArgumentException("El costo no puede ser negativo.", nameof(cost));
 
         return Math.Round(cost, 2, MidpointRounding.AwayFromZero);
+    }
+
+    private static decimal ValidateMarkup(decimal markup)
+    {
+        if (markup < 0)
+            throw new ArgumentException("El markup no puede ser negativo.", nameof(markup));
+
+        return Math.Round(markup, 4, MidpointRounding.AwayFromZero);
+    }
+
+    private static decimal ValidatePrice(decimal price)
+    {
+        if (price < 0)
+            throw new ArgumentException("El precio no puede ser negativo.", nameof(price));
+
+        return Math.Round(price, 2, MidpointRounding.AwayFromZero);
     }
 
     private static decimal ValidateStock(decimal stock, UnitMeasurement unitMeasurement)
