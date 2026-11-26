@@ -86,27 +86,28 @@ const formSchema = z.object({
             z.number({ message: "Solo puedes ingresar números" })
                 .nonnegative({ message: "El precio no puede ser negativo" })
         ),
-    stock: z
-        .string()
-        .transform((val) => (val === "" ? 0 : Number(val)))
-        .pipe(
-            z.number({ message: "Solo puedes ingresar números" })
-                .nonnegative({ message: "La cantidad no puede ser negativa" })
-        ),
+    // stock: z
+    //     .string()
+    //     .transform((val) => (val === "" ? 0 : Number(val)))
+    //     .pipe(
+    //         z.number({ message: "Solo puedes ingresar números" })
+    //             .nonnegative({ message: "La cantidad no puede ser negativa" })
+    //     ),
 
 
-}).superRefine((values, ctx) => {
-    const isDecimal = !Number.isInteger(values.stock);
-    const isUnit = values.unitMeasurement === 'Unidad';
-
-    if (isDecimal && isUnit) {
-        ctx.addIssue({
-            code: 'custom',
-            path: ['stock'],
-            message: 'Los productos por unidad solo admiten una Cantidad con número entero'
-        })
-    }
 })
+// .superRefine((values, ctx) => {
+//     const isDecimal = !Number.isInteger(values.stock);
+//     const isUnit = values.unitMeasurement === 'Unidad';
+
+//     if (isDecimal && isUnit) {
+//         ctx.addIssue({
+//             code: 'custom',
+//             path: ['stock'],
+//             message: 'Los productos por unidad solo admiten una Cantidad con número entero'
+//         })
+//     }
+// })
 const codeSchema = z.object({
     code: z
         .string()
@@ -138,7 +139,7 @@ export default function CreateProduct() {
             cost: "",
             markup: '',
             price: "",
-            stock: ''
+            // stock: ''
         },
     });
     const formCodeInput = useForm({
@@ -157,7 +158,7 @@ export default function CreateProduct() {
                 cost: String(product.cost),
                 markup: String(product.markup),
                 price: String(product.price),
-                stock: String(product.stock)
+                // stock: String(product.stock)
             });
             formCodeInput.reset({
                 code: product.code
@@ -170,7 +171,7 @@ export default function CreateProduct() {
                 cost: '',
                 markup: '',
                 price: '',
-                stock: ''
+                // stock: ''
             });
             formCodeInput.reset({
                 code: ''
@@ -464,7 +465,7 @@ export default function CreateProduct() {
                                         </Field>
                                     )}
                                 />
-                                <Controller
+                                {/* <Controller
                                     name="stock"
                                     control={form.control}
                                     render={({ field, fieldState }) => (
@@ -490,7 +491,7 @@ export default function CreateProduct() {
                                             )}
                                         </Field>
                                     )}
-                                />
+                                /> */}
 
                             </div>
 

@@ -12,12 +12,16 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { GalleryVerticalEndIcon } from "lucide-react"
-import { useState } from "react"
-import { useNavigate } from "react-router"
+import { useEffect, useRef, useState } from "react"
+import { useHref, useNavigate } from "react-router"
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const [login_message, setLoginMessage] = useState('Iniciar Sesión')
+  const inputUserName = useRef<HTMLInputElement>(null);
   const navigate = useNavigate()
+  useEffect(() => {
+    inputUserName.current?.focus();
+  })
   const handdleButton = async (e) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
@@ -74,6 +78,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
               type="text"
               placeholder="Usuario"
               required
+              ref={inputUserName}
             />
           </Field>
           <Field>
