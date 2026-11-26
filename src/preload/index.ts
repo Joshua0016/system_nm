@@ -14,6 +14,12 @@ export const api = {
     updatePassword: (id: number, dto) => ipcRenderer.invoke('user:updatePassword', id, dto),
     activate: (id: number) => ipcRenderer.invoke('user:activate', id),
     desactivate: (id: number) => ipcRenderer.invoke('user:desactivate', id)
+  },
+  product: {
+    getCode: (dto) => ipcRenderer.invoke('product:getCode', dto),
+    create: (dto) => ipcRenderer.invoke('product:create', dto),
+    update: (id: number, dto) => ipcRenderer.invoke('product:update', id, dto),
+    get: (dto: string) => ipcRenderer.invoke('product:get', dto),
   }
 }
 export const CustomApi = typeof api;

@@ -29,6 +29,7 @@ import {
     RadioGroupItem
 } from '@/components/ui/radio-group'
 import { Input } from "@/components/ui/input"
+import { toast } from 'sonner'
 
 const role = [
     {
@@ -81,21 +82,41 @@ export default function UserIdentityForm({ setIdentityForm, selectedUser, setUpd
     })
 
     function onSubmit(data: z.infer<typeof formSchema>) {
-        async function save(data) {
-            try {
-                const result = await window.api.user.updateNameRole(selectedUser.id, data)
-                if (result) {
-                    setUpdateUsers((prevUser) => prevUser.map((user) => user.id === result.id ? result : user));
-                    alert('Usuario actualizado correctamente');
-                    setIdentityForm(false)
-                    return;
+        toast.promise(
+            async () => {
+                const result = await window.api.user.updateNameRole(selectedUser.id, data);
+                if (!result) {
+                    throw new Error('Error al actualizar datos...');
                 }
-                alert('Ha ocurrido un problema al actualizar los datos, Por favor comunicarse con el soporte')
-            } catch (error) {
-                console.log('Error en el catch al guardar los datos- ---> ' + error);
+                return result;
+            },
+            {
+                position: 'top-center',
+                duration: 4000,
+                loading: 'Cargando...',
+                success: (result) => {
+                    setUpdateUsers((prevUser) => prevUser.map((user) => user.id === result.id ? result : user));
+                    setIdentityForm(false);
+                    return 'Usuario actualizado correctamente';
+                },
+                error: "Error..."
             }
-        }
-        save(data);
+        )
+        // async function save(data) {
+        //     try {
+        //         const result = await window.api.user.updateNameRole(selectedUser.id, data)
+        //         if (result) {
+
+        //             alert('Usuario actualizado correctamente');
+
+        //             return;
+        //         }
+        //         alert('Ha ocurrido un problema al actualizar los datos, Por favor comunicarse con el soporte')
+        //     } catch (error) {
+        //         console.log('Error en el catch al guardar los datos- ---> ' + error);
+        //     }
+        // }
+        // save(data);
 
     }
     return (

@@ -18,28 +18,47 @@ import {
     FieldTitle
 } from "@/components/ui/field"
 import { useState } from "react"
+import { toast } from 'sonner'
 export default function UserStatusSwitch({ setUserStatusSwitch, selectedUser, setUpdateUsers }) {
     const [status, setStatus] = useState(selectedUser.isActive)
     const handdleButton = async () => {
-        try {
-            if (status) {
-                await window.api.user.activate(selectedUser.id);
-                alert('El usuario ha sido activado ! ');
-                const updateUser = await window.api.user.getAll();
-                setUpdateUsers(updateUser);
-                setUserStatusSwitch(false);
-                return;
-            }
-            else {
-                await window.api.user.desactivate(selectedUser.id);
-                alert('El usuario ha sido desactivado !');
-                const updateUser = await window.api.user.getAll();
-                setUpdateUsers(updateUser);
-                setUserStatusSwitch(false);
-            }
-        } catch (error) {
-            console.log("Ha ocurrido un error, try-catch frontend----->" + error);
+
+        if (status) {
+            toast.promise(
+                async () => {
+                    await window.api.user.activate(selectedUser.id);
+                },
+                {
+                    position: 'top-center',
+                    loading: 'Cargando...',
+                    success: () => {
+                        setUpdateUsers((prevUsers) => (prevUsers.map((user) => user.id === selectedUser.id ? { ...user, isActive: true } : user)));
+                        setUserStatusSwitch(false);
+                        return 'Usuario activado';
+                    },
+                    error: "Error..."
+                }
+            )
+
         }
+        else {
+            toast.promise(
+                async () => {
+                    await window.api.user.desactivate(selectedUser.id);
+                },
+                {
+                    position: 'top-center',
+                    loading: 'Cargando...',
+                    success: () => {
+                        setUpdateUsers((prevUsers) => (prevUsers.map((user) => user.id === selectedUser.id ? { ...user, isActive: false } : user)));
+                        setUserStatusSwitch(false);
+                        return 'Usuario desactivado';
+                    },
+                    error: "Error..."
+                }
+            )
+        }
+
     }
     return (
         <>

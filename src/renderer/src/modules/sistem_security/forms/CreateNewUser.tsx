@@ -30,6 +30,7 @@ import {
 } from '@/components/ui/radio-group'
 import { Input } from "@/components/ui/input"
 
+import { toast } from 'sonner'
 const role = [
     {
         id: 'Admin',
@@ -82,22 +83,27 @@ export default function CreateNewUser({ setNewUserForm, setUpdateUser }) {
         },
     })
     function onSubmit(data: z.infer<typeof formSchema>) {
-        console.log(data)
-        async function save() {
-            try {
+        toast.promise(
+            async () => {
                 const result = await window.api.user.create(data);
-                if (result) {
-                    setUpdateUser((prevUser) => [...prevUser, result]);
-                    alert('Usuario creado exitosamente ! ');
-                    setNewUserForm(false);
-                    return;
+                if (!result) {
+                    throw new Error('Error al realizar la petición');
                 }
-            } catch (error) {
-                alert('Ha ocurrido un error, favor de comunicarse con soporte');
-                console.log('Error trycatch de la operacion, crear usuario ----> ' + error);
+                return result;
+            },
+            {
+                position: 'top-center',
+                duration: 4000,
+                loading: "Cargando...",
+                success: (data) => {
+                    setUpdateUser((prevUser) => [...prevUser, data]);
+                    setNewUserForm(false);
+                    return `El usuario ${data.fullName} ha sido creado`
+                },
+                error: 'Error...'
             }
-        }
-        save();
+        )
+
     }
 
     return (
@@ -277,6 +283,7 @@ export default function CreateNewUser({ setNewUserForm, setUpdateUser }) {
                             </Field>
                         </CardFooter>
                     </Card>
+
 
                 </div>
 

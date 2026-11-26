@@ -22,6 +22,7 @@ import {
 
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { toast } from 'sonner'
 
 const formSchema = z.object({
     newPassword: z
@@ -39,19 +40,18 @@ export default function PasswordForm({ setPasswordForm, selectedUser }) {
         },
     })
     function onSubmit(data: z.infer<typeof formSchema>) {
-        async function save() {
-            try {
+        toast.promise(
+            async () => {
                 await window.api.user.updatePassword(selectedUser.id, data);
-                alert("Contraseña actualizada");
-                setPasswordForm(false);
-                return;
-
-            } catch (error) {
-                alert('ha ocurrido un error al realizar la operación, favor de comunicarse con soporte');
-                console.log('Error en el catch de la operacion ----->' + error)
+            },
+            {
+                duration: 4000,
+                loading: 'Cargando...',
+                success: () => { setPasswordForm(false); return 'Contraseña actualizada' },
+                error: 'Error al actualizar la contraseña'
             }
-        }
-        save()
+        )
+
 
     }
     return (

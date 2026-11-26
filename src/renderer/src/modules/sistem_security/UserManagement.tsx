@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence } from "motion/react"
 import DataTable, { ConditionalStyles, TableColumn, type TableStyles } from 'react-data-table-component'
 import { Plus, Pencil } from 'lucide-react';
 import {
@@ -11,6 +11,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
+import { Toaster } from 'sonner';
 
 import UserIdentityForm from './forms/UserIdentityForm';
 import PasswordForm from './forms/PasswordForm';
@@ -37,6 +38,7 @@ export default function UserManagement() {
                 const data = await window.api.user.getAll();
                 if (data) {
                     setUsers(data);
+
                 }
             } catch (error) {
                 console.log('Error al realizar la petición --->' + error);
@@ -138,6 +140,7 @@ export default function UserManagement() {
                 {userStatusSwitch && <UserStatusSwitch setUserStatusSwitch={setStatusSwitch} selectedUser={selectedUser} setUpdateUsers={setUsers}></UserStatusSwitch>}
 
             </AnimatePresence>
+            <Toaster />
 
         </>
     )
